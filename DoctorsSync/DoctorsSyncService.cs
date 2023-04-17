@@ -1,14 +1,8 @@
-﻿using Azure;
-using DoctorsSync.Database;
-using DoctorsSync.Database.DataAccess;
+﻿using DoctorsSync.Database.DataAccess;
 using DoctorsSync.Elasticsearch;
-using DoctorsSync.Models;
-using Microsoft.EntityFrameworkCore;
+using DoctorsSync.Models.Db;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using Nest;
-using System.Runtime.ExceptionServices;
-using System.Text.Json;
 using System.Timers;
 using Timer = System.Timers.Timer;
 
@@ -50,15 +44,15 @@ namespace DoctorsSync
                 _logger.LogInformation($"Found ${data.Count} to synchronize.");
 
                 var doctorsToUpsert = data
-                    .Where(d => d.Status == DbDoctorStatus.Active)
-                    .Select(x => ElasticsearchDoctor.MapFromDbDoctor(x))
+                    .Where(d => d.Status == DoctorStatus.Active)
+                    .Select(x => Models.Elasticsearch.Doctor.MapFromDbDoctor(x))
                     .ToList();
                 if (doctorsToUpsert.Count != 0)
                     _elasticsearch.UpsertDocuments(doctorsToUpsert);
 
                 var doctorsToDelete = data
-                    .Where(d => d.Status == DbDoctorStatus.Deleted)
-                    .Select(x => ElasticsearchDoctor.MapFromDbDoctor(x))
+                    .Where(d => d.Status == DoctorStatus.Deleted)
+                    .Select(x => Models.Elasticsearch.Doctor.MapFromDbDoctor(x))
                     .ToList();
                 if (doctorsToDelete.Count != 0)
                     _elasticsearch.DeleteDocuments(doctorsToDelete.Select(d => d.Id).ToArray());

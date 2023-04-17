@@ -1,11 +1,11 @@
-﻿using DoctorsSync.Models;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Nest;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 using System.Runtime.ExceptionServices;
 using Azure;
 using DoctorsSync.Database.DataAccess;
+using DoctorsSync.Models.Elasticsearch;
 
 namespace DoctorsSync.Elasticsearch
 {
@@ -34,7 +34,7 @@ namespace DoctorsSync.Elasticsearch
 
         public void DeleteDocuments(long[] ids)
         {
-            _elasticClient.DeleteByQuery<ElasticsearchDoctor>(del => del
+            _elasticClient.DeleteByQuery<Doctor>(del => del
                 .Index(Index)
                 .Query(q => q
                     .Terms(t => t
@@ -49,7 +49,7 @@ namespace DoctorsSync.Elasticsearch
             _logger.LogInformation($"Deleted {ids.Length} documents.");
         }
 
-        public void UpsertDocuments(List<ElasticsearchDoctor> documents)
+        public void UpsertDocuments(List<Doctor> documents)
         {
             int backOffRetries = _configElastic.GetValue<int?>("BulkProperties:BackOffRetries") ?? 2;
             string backOffTime = _configElastic.GetValue<string?>("BulkProperties:BackOffTime") ?? "30s";

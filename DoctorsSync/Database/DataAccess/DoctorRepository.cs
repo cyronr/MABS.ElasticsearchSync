@@ -1,8 +1,7 @@
-﻿using DoctorsSync.Models;
+﻿using DoctorsSync.Models.Db;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace DoctorsSync.Database.DataAccess
 {
@@ -24,7 +23,7 @@ namespace DoctorsSync.Database.DataAccess
                 throw new ArgumentNullException("No SQL section in appsettings.");
         }
 
-        public List<DbDoctor> GetDoctors()
+        public List<Doctor> GetDoctors()
         {
             var command = _configSQL.GetValue<string?>("Command");
             if (command is null || command == "")

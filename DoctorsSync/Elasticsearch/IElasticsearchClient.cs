@@ -1,10 +1,10 @@
-﻿using DoctorsSync.Models;
+﻿using DoctorsSync.Models.Elasticsearch;
 
 namespace DoctorsSync.Elasticsearch
 {
     public interface IElasticsearchClient
     {
-        void UpsertDocuments(List<ElasticsearchDoctor> documents);
+        void UpsertDocuments(List<Doctor> documents);
         void DeleteDocuments(long[] ids);
     }
 }

@@ -1,10 +1,10 @@
-﻿using DoctorsSync.Models;
+﻿using DoctorsSync.Models.Db;
 
 namespace DoctorsSync.Database.DataAccess
 {
     public interface IDoctorRepository
     {
-        List<DbDoctor> GetDoctors();
+        List<Doctor> GetDoctors();
         void SetAsSynced(long[] ids);
     }
 }

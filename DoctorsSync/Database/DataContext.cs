@@ -1,5 +1,5 @@
 ﻿using DoctorsSync.Database.DataAccess;
-using DoctorsSync.Models;
+using DoctorsSync.Models.Db;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
@@ -10,7 +10,7 @@ namespace DoctorsSync.Database
     {
         private readonly IConfiguration _config;
 
-        public DbSet<DbDoctor> Doctors { get; set; }
+        public DbSet<Doctor> Doctors { get; set; }
 
         public DataContext(DbContextOptions<DataContext> options, IConfiguration config) : base(options)
         {
